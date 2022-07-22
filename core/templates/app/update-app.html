@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% load app_tags %}
+{% block body %}
+<div class="container">
+    <nav class="justify-content-between navbar navbar-expand-sm navbar-light bg-light p-2">
+        <nav class="breadcrumb">
+            <a class="breadcrumb-item" href="{% url 'core:get_apps' %}">Apps</a>
+            <a class="breadcrumb-item" href="{% url 'core:get_app' id=app.id %}">{{app.name}}</a>
+            <span class="breadcrumb-item active">update</span>
+        </nav>
+    </nav>
+
+    <form class="my-2" method="POST" action="{% url 'core:update_app' id=app.id %}"
+        align="left">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="modal-title" id="exampleModalLabel">Update App</h5>
+            </div>
+            <div class="card-body">
+
+                {% csrf_token %}
+
+                {{ update_app_form.app }}
+                {% render_field update_app_form.name class='form-control' %}
+                {% render_field update_app_form.repository class='form-control' %}
+                {% render_field update_app_form.description class='form-control' %}
+
+                {% include 'helpers/multiple-input.html' with name='users' label='Users' elements=app.users %}
+            </div>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary btn-sm">Save</button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

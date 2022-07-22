@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% load app_tags %}
+{% block body %}
+<div class="container">
+    <nav class="justify-content-between navbar navbar-expand-sm navbar-light bg-light p-2">
+        <nav class="breadcrumb">
+            <a class="breadcrumb-item" href="{% url 'core:get_apps' %}">Apps</a>
+            <a class="breadcrumb-item" href="{% url 'core:get_app' id=app.id %}#func-{{func.id}}">{{app.name}}</a>
+            <span class="breadcrumb-item active">{{func.name}}</span>
+        </nav>
+
+        {% url 'core:delete_functionality' id=func.id as delete_url %}
+        {% include 'helpers/delete-entity.html' with entity_name='Functionality' delete_url=delete_url  %}
+    </nav>
+
+    <div class="card my-2">
+        <div class="d-flex card-header justify-content-between">
+            <div class="row my-auto">
+                <div class="col-md-6">
+                    {{func.name}}
+                </div>
+                <div class="col-md-6">
+                    <span class="badge badge-pill badge-primary">{{func.handler}}</span>
+                </div>
+            </div>
+            <a href="{% url 'core:update_app_functionality' app_id=func.app.id id=func.id %}"
+                class="my-auto btn btn-sm btn-link"> <span class="fa fa-pencil"></span> </a>
+        </div>
+        <div class="card-body">
+            <p class="text-muted">{{func.description}}</p>
+            <hr>
+            <h6>Helpers</h6>
+            {% for helper in func.helpers %}
+            <span class="badge badge-pill badge-primary">{{helper}}</span>
+            {% empty %}
+            <p class="text-muted">No helpers added</p>
+            {% endfor %}
+            <hr>
+            <h6>Associated Users</h6>
+            {% for helper in func.users.all %}
+            <span class="badge badge-pill badge-primary">{{helper}}</span>
+            {% empty %}
+            <p class="text-muted">No users added</p>
+            {% endfor %}
+        </div>
+    </div>
+    {% endblock %}

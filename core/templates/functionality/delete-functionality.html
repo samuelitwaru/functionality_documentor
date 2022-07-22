@@ -1,0 +1,19 @@
+<button class="btn btn-sm btn-danger" data-mdb-toggle="modal" data-mdb-target="#deleteFunctionalityModal">Delete Functionality</button>
+<!-- Modal -->
+<div class="modal fade" id="deleteFunctionalityModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete functionality</h5>
+                <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this functionality?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-sm" data-mdb-dismiss="modal">Close</button>
+                <a href="{% url 'core:delete_functionality' id=func.id %}" class="btn btn-danger btn-sm">Yes, delete</a>
+            </div>
+        </div>
+    </div>
+</div>

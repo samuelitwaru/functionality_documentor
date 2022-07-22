@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% load app_tags %}
+{% block body %}
+<div class="container">
+    <nav class="justify-content-between navbar navbar-expand-sm navbar-light bg-light p-2">
+        <nav class="breadcrumb">
+            <a class="breadcrumb-item" href="{% url 'core:get_apps' %}">Apps</a>
+            <a class="breadcrumb-item" href="{% url 'core:get_app' id=func.app.id %}#func-{{func.id}}">{{func.app.name}}</a>
+            <span class="breadcrumb-item active">{{func.name}}</span>
+        </nav>
+    </nav>
+
+    <form class="my-2" method="POST" action="{% url 'core:update_app_functionality' app_id=func.app.id id=func.id %}"
+        align="left">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="modal-title" id="exampleModalLabel">Update Functionality</h5>
+            </div>
+            <div class="card-body">
+
+                {% csrf_token %}
+
+                {{ update_functionality_form.app }}
+                {% render_field update_functionality_form.name class='form-control' %}
+                {% render_field update_functionality_form.description class='form-control' %}
+                {% render_field update_functionality_form.handler class='form-control' %}
+
+                <div class="">
+                    <label>Associated users</label>
+                    <div class="p-2">
+                        {{ update_functionality_form.users }}
+                        {{ update_functionality_form.users.errors}}
+                    </div>
+                </div>
+
+                {% include 'helpers/multiple-input.html' with name='helpers' label='Helpers' elements=func.helpers %}
+
+            </div>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary btn-sm">Save</button>
+            </div>
+        </div>
+    </form>
+    {% endblock %}

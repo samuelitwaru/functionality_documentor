@@ -1,0 +1,20 @@
+<!-- args: entity_name, delete_url-->
+<button class="btn btn-link btn-sm text-danger p-0" data-mdb-toggle="modal" data-mdb-target="#delete{{entity_name}}Modal">Delete {{entity_name}}</button>
+<!-- Modal -->
+<div class="modal fade" id="delete{{entity_name}}Modal" tabindex="-1" aria-labelledby="{{entity_name}}ModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete {{entity_name}}</h5>
+                <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this {{entity_name}}?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-sm" data-mdb-dismiss="modal">Close</button>
+                <a href="{{delete_url}}" class="btn btn-danger btn-sm">Yes, delete</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% load app_tags %}
+{% block body %}
+<div class="container">
+    <nav class="justify-content-between navbar navbar-expand-sm navbar-light bg-light p-2">
+        <nav class="breadcrumb">
+            <span class="breadcrumb-item active">Apps</span>
+        </nav>
+        <a href="{% url 'core:create_app' %}" class="btn btn-sm btn-primary">New App</a>
+    </nav>
+
+    <table class="table table-sm">
+        <tbody>
+            {% for app in apps.object_list %}
+            <tr>
+                <td scope="row">
+                    <div class="my-2">
+                        {{ forloop.counter }}
+                    </div>
+                </td>
+                <td scope="row">
+                    <a class="nav-link" href="{% url 'core:get_app' id=app.id %}">{{app.name}}</a>
+                </td>
+                <td scope="row">
+                    <div class="my-2">
+                        {{ app.description }}
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

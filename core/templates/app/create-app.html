@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% load app_tags %}
+{% block body %}
+<div class="container">
+    <nav class="justify-content-between navbar navbar-expand-sm navbar-light bg-light p-2">
+        <nav class="breadcrumb">
+            <a class="breadcrumb-item" href="{% url 'core:get_apps' %}">Apps</a>
+            <span class="breadcrumb-item active">New App</span>
+        </nav>
+    </nav>
+
+    <form class="m-0" method="POST" action="{% url 'core:create_app' %}" align="left">
+        <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
+            <p class="lead fw-normal mb-0 me-3">Create Your App</p>
+        </div>
+
+        {% csrf_token %}
+
+        {% render_field create_app_form.name class='form-control' %}
+        {% render_field create_app_form.repository class='form-control' %}
+        {% render_field create_app_form.description class='form-control' %}
+
+        {% include 'helpers/multiple-input.html' with name='users' label='Users' %}
+
+        <div align="center" class="bg-white border-top p-3 mt-3 mb-0">
+            <button class="btn btn-primary">Submit <span class="fa fa-check"></span></button>
+        </div>
+    </form>
+</div>
+{% endblock %}

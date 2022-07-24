@@ -25,7 +25,12 @@
                 {{ update_functionality_form.app }}
                 {% render_field update_functionality_form.name class='form-control' %}
                 {% render_field update_functionality_form.description class='form-control' %}
-                {% render_field update_functionality_form.handler class='form-control' %}
+                {% render_field update_functionality_form.handler class='form-control' list='handlers' id='handler' %}
+                <datalist id='handlers'>
+                    {% for file in app.file_set.all %}
+                    <option value='{{file.dot_notation}}'/>
+                    {% endfor %}
+                </datalist>
 
                 <div class="">
                     <label>Associated users</label>

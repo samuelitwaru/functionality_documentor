@@ -83,7 +83,7 @@ WSGI_APPLICATION = 'functionality_documentor.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': os.path.dirname(BASE_DIR) + 'db.sqlite3',
     }
 }
 

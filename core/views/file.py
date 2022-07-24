@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 
 from core.forms.file import RefreshAppFilesForm
+from core.utils import match_file
 from ..forms import CreateFunctionalityForm, UpdateFunctionalityForm
 from ..models import App, File
 from github import Github
@@ -13,8 +14,10 @@ def refresh_app_files(request, app_id):
         data = refresh_app_files_form.cleaned_data
         # load files
         g = Github(data['access_token'])
-        repo = g.get_repo('samuelitwaru/wex-results')
+        repo = g.get_repo(app.repo_name)
+        ignore_files = app.ignore_files
         folders = app.folders or [""]
+        file_ids = []
         count = 0
         for folder in folders:
             contents = repo.get_contents(folder)
@@ -23,13 +26,15 @@ def refresh_app_files(request, app_id):
                 if file_content.type == "dir":
                     contents.extend(repo.get_contents(file_content.path))
                 else:
-                    print(file_content.path)
+                    if match_file(file_content.path, ignore_files):
+                        continue
                     # store file path
                     file, created = File.objects.get_or_create(path=file_content.path, app=app)
+                    file_ids.append(file.id)
                     if created:
                         count += 1
-                    print(file.dot_notation())
-                    
+        # delete other files
+        File.objects.exclude(id__in=file_ids).delete() 
         # batch save files
         messages.success(request, f"Loaded {count} new files")
         return redirect(request.META.get('HTTP_REFERER'))

@@ -1,7 +1,7 @@
 from email.policy import default
 import pathlib
 from django.db import models
-
+from urllib.parse import urlparse
 
 def functionality_image_upload_location(instance, filename):
     _, extension = filename.split('.')
@@ -21,6 +21,7 @@ class App(TimeStampedModel):
     description = models.CharField(max_length=512)
     repository = models.URLField()
     access_token = models.CharField(max_length=128, null=True)
+    ignore_files = models.JSONField(default=list)
     folders = models.JSONField(default=list)
     link = models.URLField()
 
@@ -29,6 +30,10 @@ class App(TimeStampedModel):
 
     def __str__(self):
         return self.name
+    
+    @property
+    def repo_name(self):
+        return urlparse(self.repository).path.strip('/')
 
 
 class AppUser(TimeStampedModel):

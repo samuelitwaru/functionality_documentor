@@ -24,6 +24,7 @@
             <small style="display: relative; top: 100px;">Git</small>
             {% render_field create_app_form.repository class='form-control' %}
             {% render_field create_app_form.access_token class='form-control' %}
+            {% include 'helpers/multiple-input.html' with name='ignore_files' label='Ignore Files' %}
             {% include 'helpers/multiple-input.html' with name='folders' label='Folders' %}
         </div>
         

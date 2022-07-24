@@ -68,6 +68,7 @@ def update_app(request, id):
         'name':app.name,
         'repository':app.repository,
         'access_token':app.access_token,
+        'ignore_files':app.ignore_files,
         'folders':app.folders,
         'description':app.description,
         'users':app.users,
@@ -80,11 +81,11 @@ def update_app(request, id):
             app.repository = data['repository']
             app.access_token = data['access_token']
             app.description = data['description']
+            app.ignore_files = data['ignore_files']
             app.folders = data['folders']
             [user.delete() for user in app.appuser_set.all() if not user in data['users']]
             app.appuser_set.add(*data['users'])
             app.save()
-            print('starting')
             run_task('task 1')
             messages.success(request, 'app updated.')
             return redirect('core:get_app', id=id)

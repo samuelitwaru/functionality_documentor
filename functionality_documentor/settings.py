@@ -17,8 +17,6 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-print(type(Path('/home')))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
@@ -88,6 +86,8 @@ DATABASES = {
         'NAME': Path(os.path.dirname(BASE_DIR)) / 'db.sqlite3',
     }
 }
+
+print('>>>>>', DATABASES['default']['NAME'])
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators

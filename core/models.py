@@ -19,6 +19,8 @@ class App(TimeStampedModel):
     name = models.CharField(max_length=64)
     description = models.CharField(max_length=512)
     repository = models.URLField()
+    access_token = models.CharField(max_length=128, null=True)
+    folders = models.JSONField(default=list)
     link = models.URLField()
 
     class Meta:
@@ -45,3 +47,8 @@ class Functionality(TimeStampedModel):
     image = models.ImageField(upload_to=functionality_image_upload_location, null=True)
     app = models.ForeignKey(App, on_delete=models.CASCADE)
     users = models.ManyToManyField(AppUser, related_name='functionalities')
+
+class File(TimeStampedModel):
+    path = models.CharField(max_length=256)
+    dot_notation = models.CharField(max_length=256)
+    app = models.ForeignKey(App, on_delete=models.CASCADE)

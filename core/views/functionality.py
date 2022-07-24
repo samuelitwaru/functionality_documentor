@@ -41,7 +41,8 @@ def update_app_functionality(request, app_id, id):
         'name': func.name,
         'handler': func.handler,
         'description': func.description,
-        'users': [user.id for user in func.users.all()]
+        'users': [user.id for user in func.users.all()],
+        'helpers': func.helpers
     })
     if request.method == 'POST':
         update_functionality_form = UpdateFunctionalityForm(func=func, data=request.POST)

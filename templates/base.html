@@ -1,21 +1,98 @@
 {% load static %}
 
 <html>
-	<head>
-		<meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta http-equiv="x-ua-compatible" content="ie=edge" />
-        <title>Functionality Documentor</title>
 
-		<link rel="stylesheet" type="text/css" href="{% static 'css/font-awesome.min.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'css/mdb.min.css' %}">
-		<script type="text/javascript" src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
-	</head>
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<meta http-equiv="x-ua-compatible" content="ie=edge" />
+	<title>Functionality Documentor</title>
 
-	<body>
-		{% include 'alert.html' %}
-		{% block body %}
-		{% endblock %}
-        <script type="text/javascript" src="{% static 'js/mdb.min.js' %}"></script>
-	</body>
+	<link rel="stylesheet" type="text/css" href="{% static 'css/font-awesome.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/mdb.min.css' %}">
+	<script type="text/javascript" src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+</head>
+
+<body>
+	{% include 'alert.html' %}
+	{% block body %}
+	{% endblock %}
+	<script type="text/javascript" src="{% static 'js/mdb.min.js' %}"></script>
+	<script type="text/javascript">
+		function renderElements(elements, container) {
+			container.html('')
+			elements.forEach(ele => {
+				container.append(`
+						<span class="m-1 badge badge-pill badge-primary">
+							<label class="my-auto">${ele}</label>
+							<button type="button" class="border-0 bg-transparent btn-sm p-0 btn-link"
+								onclick="removeElement(this, '${ele}')">&times;</button>
+						</span>
+	
+						`)
+			})
+		}
+		// function updateInput(elements){
+		//     elementsInput.val(elements)
+		// }
+		function addElement(element, elements, container, name) {
+			if (elements.includes(element)) return
+			else {
+				console.log(elements)
+				elements.push(element)
+				renderElements(elements, container, name)
+				return elements
+			}
+		}
+		function removeElement(btn, element) {
+			const dataElement = btn.parentElement.parentElement.parentElement.parentElement
+			const data = dataElement.dataset
+			const container = $(data.container)
+			const hiddenInput = $(data.hiddenInput)
+			var elements = JSON.parse(hiddenInput.val())
+			elements = elements.filter(ele=>ele!=element)
+			renderElements(elements, container)
+			hiddenInput.val(JSON.stringify(elements))
+		}
+
+		$('.element-input').on('keydown', (e) => {
+			const tag = e.target
+			const value = tag.value
+			const component = tag.parentElement.parentElement
+			const data = component.dataset
+			const container = $(data.container)
+			const hiddenInput = $(data.hiddenInput)
+			const input = $(data.input)
+			var elements = JSON.parse(hiddenInput.val())
+			// if key is enter or comma
+			if (e.which == 13 || e.which == 188) {
+				tag.value = ''
+				e.preventDefault()
+				// add elements
+				if (elements.includes(value)) return
+				else {
+					elements.push(value)
+				}
+			}
+			else if (value == '' && event.which == 8) {
+				elements.pop()
+				// renderElements()
+			}
+			hiddenInput.val(JSON.stringify(elements))
+			renderElements(elements, container)
+		});
+		$().ready(()=>{
+			const components = document.getElementsByClassName('string-list-input')
+			for (let index = 0; index < components.length; index++) {
+				const component = components[index];
+				const data = component.dataset
+				const container = $(data.container)
+				const hiddenInput = $(data.hiddenInput)
+				const elements = JSON.parse(hiddenInput.val())
+				renderElements(elements, container)
+			}
+		})
+	</script>
+</body>
+
 </html>

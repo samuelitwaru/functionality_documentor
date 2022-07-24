@@ -1,55 +1,24 @@
 <!-- args: label, name, elements -->
-<label>{{label}}</label>
-<div class="border p-1">
-    <input id='elements-input' type="hidden" name="{{name}}">
-    <div id='helper-list' class="d-flex flex-wrap align-items-baseline" style="min-height: 50;">
+<div
+    class="string-list-input" 
+    data-elements='[{% for element in elements|slice:"0,1" %}"{{element}}"{% if not forloop.last%},{% endif %}{% endfor %}]'
+    data-container="#{{name}}Container"
+    data-hidden-input="#{{name}}HiddenInput"
+    data-input="#{{name}}Input"
+>
+    <label>{{label}}</label>
+    <div class="border p-2">
+        <input id="{{name}}HiddenInput" type="hidden" name="{{name}}" 
+        value='[{% for element in elements|slice:"0,1" %}"{{element}}"{% if not forloop.last%},{% endif %}{% endfor %}]'>
+        <div 
+            id="{{name}}Container"
+            class="d-flex flex-wrap align-items-baseline element-container" 
+            style="min-height: 50;">
+        </div>
+        <input
+            id="{{name}}Input" 
+            class='form-control form-control-sm element-input'  
+            type="text" 
+            >
     </div>
-    <input class='form-control form-control-sm' id='element-input' type="text" name="helper">
-    <script type="text/javascript">
-        const elementsInput = $('#elements-input')
-        const input = $('#element-input')
-        const list = $('#helper-list')
-        var elements = JSON.parse(`[{% for helper in elements|slice:"0,1" %}"{{helper}}"{% if not forloop.last%},{% endif %}{% endfor %}]`)
-        function renderElements() {
-            list.html('')
-            elements.forEach(ele => {
-                list.append(`
-                    <span class="m-1 badge badge-pill badge-primary">
-                        <label class="my-auto">${ele}</label>
-                        <button type="button" class="border-0 bg-transparent btn-sm p-0 btn-link"
-                            onclick="removeElement('${ele}')">&times;</button>
-                    </span>
-
-                    `)
-            })
-            updateInput()
-        }
-        function updateInput(){
-            elementsInput.val(elements)
-        }
-        function addElement(element) {
-            if (elements.includes(element)) return
-            else {
-                elements.push(element)
-                renderElements()
-            }
-        }
-        function removeElement(element) {
-            elements = elements.filter(ele=>ele!=element)
-            renderElements()
-        }
-        input.on('keydown', (e) => {
-            const value = e.target.value
-            if (e.which == 13 || e.which==188) {
-                input.val('')
-                e.preventDefault()
-                addElement(value)
-            }
-            else if (value == '' && event.which == 8) {
-                elements.pop()
-                renderElements()
-            }
-        });
-        renderElements()
-    </script>
 </div>

@@ -5,6 +5,7 @@ from django.conf import settings
 
 from core.forms.app import CreateAppForm, UpdateAppForm
 from core.forms.functionality import CreateFunctionalityForm
+from core.tasks import run_task
 from ..models import App, AppUser
 from ..forms import AppForm
 
@@ -59,13 +60,13 @@ def create_app(request):
 def update_app(request, id):
     app = App.objects.get(id=id)
     app.users = [user.name for user in app.appuser_set.all()]
-    print(app.appuser_set.all())
-    print(app.users)
     update_app_form = UpdateAppForm(app=app, data={
         'name':app.name,
         'repository':app.repository,
+        'access_token':app.access_token,
+        'folders':app.folders,
         'description':app.description,
-        'users':','.join(app.users),
+        'users':app.users,
     })
     if request.method == 'POST':
         update_app_form = UpdateAppForm(app=app, data=request.POST)
@@ -73,10 +74,14 @@ def update_app(request, id):
             data = update_app_form.cleaned_data
             app.name = data['name']
             app.repository = data['repository']
+            app.access_token = data['access_token']
             app.description = data['description']
+            app.folders = data['folders']
             [user.delete() for user in app.appuser_set.all() if not user in data['users']]
             app.appuser_set.add(*data['users'])
             app.save()
+            print('starting')
+            run_task('task 1')
             messages.success(request, 'app updated.')
             return redirect('core:get_app', id=id)
     context = {

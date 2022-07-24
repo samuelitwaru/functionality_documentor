@@ -24,7 +24,12 @@
 
                 {{ update_app_form.app }}
                 {% render_field update_app_form.name class='form-control' %}
-                {% render_field update_app_form.repository class='form-control' %}
+                <div class="border p-2 my-1 rounded">
+                    <small style="display: relative; top: 100px;">Git</small>
+                    {% render_field update_app_form.repository class='form-control' %}
+                    {% render_field update_app_form.access_token class='form-control' %}
+                    {% include 'helpers/multiple-input.html' with name='folders' label='Folders' elements=app.folders %}
+                </div>
                 {% render_field update_app_form.description class='form-control' %}
 
                 {% include 'helpers/multiple-input.html' with name='users' label='Users' elements=app.users %}

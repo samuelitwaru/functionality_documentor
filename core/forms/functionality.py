@@ -1,6 +1,7 @@
 from cgitb import handler
 from django import forms
 from ..models import App, AppUser, Functionality
+from .utils import StringListField
 
 
 class CreateFunctionalityForm(forms.Form):
@@ -28,7 +29,7 @@ class UpdateFunctionalityForm(forms.Form):
     name = forms.CharField()
     handler = forms.CharField()
     description = forms.CharField(widget=forms.Textarea)
-    helpers = forms.CharField(widget=forms.Textarea, required=False)
+    helpers = StringListField(widget=forms.Textarea, required=False)
     users = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, required=False)
 
     def __init__(self, func=None, *args, **kwargs):
@@ -38,11 +39,6 @@ class UpdateFunctionalityForm(forms.Form):
 
     def clean(self):
         cleaned_data = super().clean()
-        helpers = cleaned_data["helpers"]
-        if helpers:
-            self.cleaned_data['helpers'] = helpers.split(',')
-        else:
-            self.cleaned_data['helpers'] = []
         self.cleaned_data['users'] = AppUser.objects.filter(id__in=cleaned_data['users'])
         
 

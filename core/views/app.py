@@ -4,6 +4,7 @@ from django.core.paginator import Paginator
 from django.conf import settings
 
 from core.forms.app import CreateAppForm, UpdateAppForm
+from core.forms.file import RefreshAppFilesForm
 from core.forms.functionality import CreateFunctionalityForm
 from core.tasks import run_task
 from ..models import App, AppUser
@@ -33,9 +34,12 @@ def get_apps(request):
 def get_app(request, id):
     app = App.objects.get(id=id)
     create_functionality_form = CreateFunctionalityForm(app=app)
+    refresh_app_files_form = RefreshAppFilesForm(app=app)
+    # print(refresh_app_files_form.files['access_token'])
     context = {
         'app': app,
         'create_functionality_form': create_functionality_form,
+        'refresh_app_files_form': refresh_app_files_form
     }
     return render(request, 'app/app.html', context)
 

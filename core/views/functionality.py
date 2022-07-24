@@ -1,6 +1,5 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect
-from django.utils.encoding import smart_str, smart_bytes
 from ..forms import CreateFunctionalityForm, UpdateFunctionalityForm
 from ..models import App, Functionality
 

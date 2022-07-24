@@ -1,7 +1,7 @@
 from background_task import background
 
 
-@background(schedule=2)
+@background(schedule=1)
 def run_task(name):
     print('starting...', name)
     with open('2.txt', 'w') as fh:

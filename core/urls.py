@@ -1,4 +1,5 @@
 from django.urls import path
+
 from .views import *
 
 app_name = "core"
@@ -15,4 +16,7 @@ urlpatterns = [
     path('apps/<int:app_id>/functionalities/<int:id>/', get_app_functionality, name='get_app_functionality'),
     path('apps/<int:app_id>/functionalities/<int:id>/update', update_app_functionality, name='update_app_functionality'),
     path('functionalities/<int:id>/delete/', delete_functionality, name='delete_functionality'),
+
+    path('apps/<int:app_id>/files/refresh/', refresh_app_files, name='refresh_app_files'),
+
 ]

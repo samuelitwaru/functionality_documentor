@@ -1,4 +1,5 @@
 from email.policy import default
+import pathlib
 from django.db import models
 
 
@@ -50,5 +51,9 @@ class Functionality(TimeStampedModel):
 
 class File(TimeStampedModel):
     path = models.CharField(max_length=256)
-    dot_notation = models.CharField(max_length=256)
+    # dot_notation = models.CharField(max_length=256)
     app = models.ForeignKey(App, on_delete=models.CASCADE)
+
+    def dot_notation(self):
+        path = pathlib.Path(self.path)
+        return '.'.join(path.with_suffix('').parts)

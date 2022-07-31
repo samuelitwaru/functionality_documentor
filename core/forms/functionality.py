@@ -1,4 +1,3 @@
-from cgitb import handler
 from django import forms
 from ..models import App, AppUser, Functionality
 from .utils import StringListField
@@ -7,7 +6,7 @@ from .utils import StringListField
 class CreateFunctionalityForm(forms.Form):
     app = forms.IntegerField(widget=forms.HiddenInput)
     name = forms.CharField()
-    handler = forms.CharField()
+    front_end_handler = forms.CharField()
     description = forms.CharField(widget=forms.Textarea)
     users = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, required=False)
 
@@ -27,7 +26,7 @@ class CreateFunctionalityForm(forms.Form):
 class UpdateFunctionalityForm(forms.Form):
     app = forms.IntegerField(widget=forms.HiddenInput)
     name = forms.CharField()
-    handler = forms.CharField()
+    front_end_handler = forms.CharField()
     description = forms.CharField(widget=forms.Textarea)
     helpers = StringListField(widget=forms.Textarea, required=False)
     users = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, required=False)

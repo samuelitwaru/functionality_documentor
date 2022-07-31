@@ -25,7 +25,7 @@
                 {{ update_functionality_form.app }}
                 {% render_field update_functionality_form.name class='form-control' %}
                 {% render_field update_functionality_form.description class='form-control' %}
-                {% render_field update_functionality_form.handler class='form-control' list='handlers' id='handler' %}
+                {% render_field update_functionality_form.front_end_handler class='form-control' list='handlers' id='front-end-handler' %}
                 <datalist id='handlers'>
                     {% for file in app.file_set.all %}
                     <option value='{{file.dot_notation}}'/>

@@ -38,7 +38,7 @@ def update_app_functionality(request, app_id, id):
     update_functionality_form = UpdateFunctionalityForm(func=func, data={
         'app': func.app.id,
         'name': func.name,
-        'handler': func.handler,
+        'front_end_handler': func.front_end_handler,
         'description': func.description,
         'users': [user.id for user in func.users.all()],
         'helpers': func.helpers
@@ -49,7 +49,7 @@ def update_app_functionality(request, app_id, id):
             data = update_functionality_form.cleaned_data
             func.name = data['name']
             func.description = data['description']
-            func.handler = data['handler']
+            func.front_end_handler = data['front_end_handler']
             func.helpers = data['helpers']
             func.save()
             # [user.delete() for user in func.users.all() if not user in data['users']]

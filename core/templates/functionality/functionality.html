@@ -22,7 +22,7 @@
                     {{func.name}}
                 </div>
                 <div class="col-md-6">
-                    <span class="badge badge-pill badge-primary">{{func.handler}}</span>
+                    <span class="badge badge-pill badge-primary">{{func.front_end_handler}}</span>
                 </div>
             </div>
             <a href="{% url 'core:update_app_functionality' app_id=func.app.id id=func.id %}"
@@ -46,4 +46,6 @@
             {% endfor %}
         </div>
     </div>
+
+    <script src="https://gist.github.com/samuelitwaru/8df50ad1b393566a5c5c991d04f9b0b5.js"></script>
     {% endblock %}

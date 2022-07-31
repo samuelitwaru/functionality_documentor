@@ -47,7 +47,7 @@ class AppUser(TimeStampedModel):
 class Functionality(TimeStampedModel):
     name = models.CharField(max_length=64)
     description = models.CharField(max_length=512)
-    handler = models.CharField(max_length=128)
+    front_end_handler = models.CharField(max_length=128)
     helpers = models.JSONField(default=list)
     procudure = models.JSONField(default=list)
     image = models.ImageField(upload_to=functionality_image_upload_location, null=True)
@@ -56,9 +56,9 @@ class Functionality(TimeStampedModel):
 
 class File(TimeStampedModel):
     path = models.CharField(max_length=256)
-    # dot_notation = models.CharField(max_length=256)
     app = models.ForeignKey(App, on_delete=models.CASCADE)
 
+    @property
     def dot_notation(self):
         path = pathlib.Path(self.path)
         return '.'.join(path.with_suffix('').parts)

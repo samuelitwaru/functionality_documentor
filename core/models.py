@@ -47,7 +47,10 @@ class AppUser(TimeStampedModel):
 class Functionality(TimeStampedModel):
     name = models.CharField(max_length=64)
     description = models.CharField(max_length=512)
-    front_end_handler = models.CharField(max_length=128)
+    front_end_handler = models.CharField(max_length=128, null=True, blank=True)
+    back_end_handler = models.CharField(max_length=128, null=True, blank=True)
+    front_end_gist = models.CharField(max_length=128, null=True, blank=True)
+    back_end_gist = models.CharField(max_length=128, null=True, blank=True)
     helpers = models.JSONField(default=list)
     procudure = models.JSONField(default=list)
     image = models.ImageField(upload_to=functionality_image_upload_location, null=True)

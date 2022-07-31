@@ -39,6 +39,7 @@ def update_app_functionality(request, app_id, id):
         'app': func.app.id,
         'name': func.name,
         'front_end_handler': func.front_end_handler,
+        'back_end_handler': func.back_end_handler,
         'description': func.description,
         'users': [user.id for user in func.users.all()],
         'helpers': func.helpers
@@ -50,6 +51,7 @@ def update_app_functionality(request, app_id, id):
             func.name = data['name']
             func.description = data['description']
             func.front_end_handler = data['front_end_handler']
+            func.back_end_handler = data['back_end_handler']
             func.helpers = data['helpers']
             func.save()
             # [user.delete() for user in func.users.all() if not user in data['users']]

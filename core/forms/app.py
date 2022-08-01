@@ -12,22 +12,38 @@ class AppForm(forms.ModelForm):
 
 class CreateAppForm(forms.Form):
     name = forms.CharField()
-    repository = forms.CharField()
-    ignore_files = StringListField(widget=forms.Textarea, required=False)
-    folders = StringListField(widget=forms.Textarea, required=False)
-    access_token = forms.CharField(required=False)
     description = forms.CharField(widget=forms.Textarea)
     users = StringListField(widget=forms.Textarea)
+    fe_repo = forms.CharField(label='Front End Repo', required=False)
+    fe_ignore_files = StringListField(label='Ignore Files', widget=forms.Textarea, required=False)
+    fe_folders = StringListField(label='Folders', widget=forms.Textarea, required=False)
+    fe_token = forms.CharField(label='Access Token', required=False)
+
+    be_repo = forms.CharField(label='Back End Repo', required=False)
+    be_ignore_files = StringListField(label='Ignore Files', widget=forms.Textarea, required=False)
+    be_folders = StringListField(label='Folders', widget=forms.Textarea, required=False)
+    be_token = forms.CharField(label='Access Token', required=False)
 
 
 class UpdateAppForm(forms.Form):
     name = forms.CharField()
-    repository = forms.CharField()
-    ignore_files = StringListField(widget=forms.Textarea, required=False)
-    folders = StringListField(widget=forms.Textarea, required=False)
-    access_token = forms.CharField(required=False)
     description = forms.CharField(widget=forms.Textarea)
     users = StringListField(widget=forms.Textarea, required=False)
+    
+    fe_repo = forms.CharField(label='Front End Repo', required=False)
+    fe_ignore_files = StringListField(label='Ignore Files', widget=forms.Textarea, required=False)
+    fe_folders = StringListField(label='Folders', widget=forms.Textarea, required=False)
+    fe_token = forms.CharField(label='Access Token', required=False)
+
+    fe_repo = forms.CharField(label='Front End Repo', required=False)
+    fe_ignore_files = StringListField(label='Ignore Files', widget=forms.Textarea, required=False)
+    fe_folders = StringListField(label='Folders', widget=forms.Textarea, required=False)
+    fe_token = forms.CharField(label='Access Token', required=False)
+
+    be_repo = forms.CharField(label='Back End Repo', required=False)
+    be_ignore_files = StringListField(label='Ignore Files', widget=forms.Textarea, required=False)
+    be_folders = StringListField(label='Folders', widget=forms.Textarea, required=False)
+    be_token = forms.CharField(label='Access Token', required=False)
 
     def __init__(self, app, *args, **kwargs):
         super().__init__(*args, **kwargs)

@@ -3,6 +3,8 @@ import pathlib
 from django.db import models
 from urllib.parse import urlparse
 
+
+
 def functionality_image_upload_location(instance, filename):
     _, extension = filename.split('.')
     return f'teachers/pictures/{instance.id}.{extension}'
@@ -19,11 +21,24 @@ class TimeStampedModel(models.Model):
 class App(TimeStampedModel):
     name = models.CharField(max_length=64)
     description = models.CharField(max_length=512)
-    repository = models.URLField()
-    access_token = models.CharField(max_length=128, null=True)
-    ignore_files = models.JSONField(default=list)
-    folders = models.JSONField(default=list)
-    link = models.URLField()
+    
+    # repository = models.URLField()
+    # access_token = models.CharField(max_length=128, null=True)
+    # ignore_files = models.JSONField(default=list)
+    # folders = models.JSONField(default=list)
+    # link = models.URLField()
+
+    fe_repo = models.URLField(null=True)
+    fe_token = models.CharField(max_length=128, null=True)
+    fe_ignore_files = models.JSONField(default=list)
+    fe_folders = models.JSONField(default=list)
+    fe_link = models.URLField(null=True)
+
+    be_repo = models.URLField(null=True)
+    be_token = models.CharField(max_length=128, null=True)
+    be_ignore_files = models.JSONField(default=list)
+    be_folders = models.JSONField(default=list)
+    be_link = models.URLField(null=True)
 
     class Meta:
         ordering = ['-id']
@@ -33,7 +48,7 @@ class App(TimeStampedModel):
     
     @property
     def repo_name(self):
-        return urlparse(self.repository).path.strip('/')
+        return urlparse(self.fe_repo).path.strip('/')
 
 
 class AppUser(TimeStampedModel):

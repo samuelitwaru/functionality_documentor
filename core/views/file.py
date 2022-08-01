@@ -13,20 +13,20 @@ def refresh_app_files(request, app_id):
     if refresh_app_files_form.is_valid():
         data = refresh_app_files_form.cleaned_data
         # load files
-        g = Github(data['access_token'])
+        g = Github(data['fe_token'])
         repo = g.get_repo(app.repo_name)
-        ignore_files = app.ignore_files
-        folders = app.folders or [""]
+        fe_ignore_files = app.fe_ignore_files
+        fe_folders = app.fe_folders or [""]
         file_ids = []
         count = 0
-        for folder in folders:
+        for folder in fe_folders:
             contents = repo.get_contents(folder)
             while len(contents) > 1:
                 file_content = contents.pop(0)
                 if file_content.type == "dir":
                     contents.extend(repo.get_contents(file_content.path))
                 else:
-                    if match_file(file_content.path, ignore_files):
+                    if match_file(file_content.path, fe_ignore_files):
                         continue
                     # store file path
                     file, created = File.objects.get_or_create(path=file_content.path, app=app)

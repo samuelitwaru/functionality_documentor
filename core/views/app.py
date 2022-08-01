@@ -35,7 +35,7 @@ def get_app(request, id):
     app = App.objects.get(id=id)
     create_functionality_form = CreateFunctionalityForm(app=app)
     refresh_app_files_form = RefreshAppFilesForm(app=app)
-    # print(refresh_app_files_form.files['access_token'])
+    # print(refresh_app_files_form.files['fe_token'])
     context = {
         'app': app,
         'create_functionality_form': create_functionality_form,
@@ -66,10 +66,10 @@ def update_app(request, id):
     app.users = [user.name for user in app.appuser_set.all()]
     update_app_form = UpdateAppForm(app=app, data={
         'name':app.name,
-        'repository':app.repository,
-        'access_token':app.access_token,
-        'ignore_files':app.ignore_files,
-        'folders':app.folders,
+        'fe_repo':app.fe_repo,
+        'fe_token':app.fe_token,
+        'fe_ignore_files':app.fe_ignore_files,
+        'fe_folders':app.fe_folders,
         'description':app.description,
         'users':app.users,
     })
@@ -78,11 +78,16 @@ def update_app(request, id):
         if update_app_form.is_valid():
             data = update_app_form.cleaned_data
             app.name = data['name']
-            app.repository = data['repository']
-            app.access_token = data['access_token']
             app.description = data['description']
-            app.ignore_files = data['ignore_files']
-            app.folders = data['folders']
+            app.fe_repo = data['fe_repo']
+            app.fe_token = data['fe_token']
+            app.fe_ignore_files = data['fe_ignore_files']
+            app.fe_folders = data['fe_folders']
+            app.be_repo = data['be_repo']
+            app.be_token = data['be_token']
+            app.be_ignore_files = data['be_ignore_files']
+            app.be_folders = data['be_folders']
+            
             [user.delete() for user in app.appuser_set.all() if not user in data['users']]
             app.appuser_set.add(*data['users'])
             app.save()

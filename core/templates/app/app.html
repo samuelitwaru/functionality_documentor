@@ -27,8 +27,18 @@
                 <span class="badge badge-pill badge-primary">{{app.fe_repo}}</span>
             </a>
             <div class="d-flex">
-                <small class="my-auto">{{app.file_set.count}} files</small>
-                {% include 'file/refresh-app-files-modal.html' %}
+                <small class="my-auto">{{app.fe_file_set.count}} files</small>
+                {% include 'file/refresh-app-files-modal.html' with end='FRONT' form=refresh_front_app_files_form %}
+            </div>
+        </div>
+        <div>
+            <div><small>Repository:</small></div>
+            <a href="{{app.be_repo}}" target="_blank">
+                <span class="badge badge-pill badge-primary">{{app.be_repo}}</span>
+            </a>
+            <div class="d-flex">
+                <small class="my-auto">{{app.be_file_set.count}} files</small>
+                {% include 'file/refresh-app-files-modal.html' with end='BACK' form=refresh_back_app_files_form %}
             </div>
         </div>
         <div>

@@ -4,7 +4,6 @@ import json
 class StringListField(forms.CharField):
     
     def clean(self, value):
-        print('>>>>>.', value)
         if isinstance(value, list):
             return value
         try:

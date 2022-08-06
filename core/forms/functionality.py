@@ -6,6 +6,8 @@ from .utils import StringListField
 class CreateFunctionalityForm(forms.Form):
     app = forms.IntegerField(widget=forms.HiddenInput)
     name = forms.CharField()
+    front_end_file = forms.CharField(required=False, empty_value=None)
+    back_end_file = forms.CharField(required=False, empty_value=None)
     front_end_handler = forms.CharField(required=False, empty_value=None)
     back_end_handler = forms.CharField(required=False, empty_value=None)
     description = forms.CharField(widget=forms.Textarea)
@@ -27,6 +29,8 @@ class CreateFunctionalityForm(forms.Form):
 class UpdateFunctionalityForm(forms.Form):
     app = forms.IntegerField(widget=forms.HiddenInput)
     name = forms.CharField()
+    front_end_file = forms.CharField(required=False, empty_value=None)
+    back_end_file = forms.CharField(required=False, empty_value=None)
     front_end_handler = forms.CharField(required=False, empty_value=None)
     back_end_handler = forms.CharField(required=False, empty_value=None)
     description = forms.CharField(widget=forms.Textarea)

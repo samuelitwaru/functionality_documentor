@@ -1,5 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect
+
+from core.utils import create_gist, delete_gist
 from ..forms import CreateFunctionalityForm, UpdateFunctionalityForm
 from ..models import App, Functionality
 
@@ -38,6 +40,8 @@ def update_app_functionality(request, app_id, id):
     update_functionality_form = UpdateFunctionalityForm(func=func, data={
         'app': func.app.id,
         'name': func.name,
+        'front_end_file': func.front_end_file,
+        'back_end_file': func.back_end_file,
         'front_end_handler': func.front_end_handler,
         'back_end_handler': func.back_end_handler,
         'description': func.description,
@@ -53,8 +57,24 @@ def update_app_functionality(request, app_id, id):
             func.front_end_handler = data['front_end_handler']
             func.back_end_handler = data['back_end_handler']
             func.helpers = data['helpers']
+            app = func.app
+            
+            if data['front_end_file']:
+                if func.front_end_gist:
+                    delete_gist(app.fe_token, func.front_end_gist)
+                gist = create_gist(app.fe_token, app.fe_repo_name,  data['front_end_file'])
+                func.front_end_gist = gist.id
+                func.front_end_file = data['front_end_file']
+
+            if ['back_end_file']:
+                if func.back_end_gist:
+                    delete_gist(app.fe_token, func.back_end_gist)
+                gist = create_gist(app.be_token, app.be_repo_name,  data['back_end_file'])
+                func.back_end_file = data['back_end_file']
+                func.back_end_gist = gist.id
+            
             func.save()
-            # [user.delete() for user in func.users.all() if not user in data['users']]
+
             func.users.set(data['users'])
             messages.success(request, 'functionality updated.')
             return redirect('core:get_app_functionality', app_id=app_id, id=id)

@@ -27,42 +27,38 @@
                 {% render_field update_app_form.description class='form-control' %}
                 {% include 'helpers/multiple-input.html' with name='users' label='Users' elements=app.users %}
                 <hr />
-    <div>
-      <ul class="nav nav-tabs nav-justified mb-3" id="ex1" role="tablist">
-        <li class="nav-item" role="presentation">
-          <a class="nav-link active" id="ex3-tab-1" data-mdb-toggle="tab" href="#ex3-tabs-1" role="tab"
-            aria-controls="ex3-tabs-1" aria-selected="true">Front End</a>
-        </li>
-        <li class="nav-item" role="presentation">
-          <a class="nav-link" id="ex3-tab-2" data-mdb-toggle="tab" href="#ex3-tabs-2" role="tab"
-            aria-controls="ex3-tabs-2" aria-selected="false">Back End</a>
-        </li>
-      </ul>
-      <!-- Tabs navs -->
-
-      <!-- Tabs content -->
-      <div class="tab-content" id="ex2-content">
-        <div class="tab-pane fade show active" id="ex3-tabs-1" role="tabpanel" aria-labelledby="ex3-tab-1">
-          <div class="border p-2 my-1 rounded">
-            <small style="display: relative; top: 100px;">Front End</small>
-            {% render_field update_app_form.fe_repo class='form-control' %}
-            {% render_field update_app_form.fe_token class='form-control' %}
-            {% include 'helpers/multiple-input.html' with name='fe_ignore_files' label='Ignore Files' %}
-            {% include 'helpers/multiple-input.html' with name='fe_folders' label='Folders' %}
-          </div>
-        </div>
-        <div class="tab-pane fade" id="ex3-tabs-2" role="tabpanel" aria-labelledby="ex3-tab-2">
-          <div class="border p-2 my-1 rounded">
-            <small style="display: relative; top: 100px;">Back End</small>
-            {% render_field update_app_form.be_repo class='form-control' %}
-            {% render_field update_app_form.be_token class='form-control' %}
-            {% include 'helpers/multiple-input.html' with name='be_ignore_files' label='Ignore Files' %}
-            {% include 'helpers/multiple-input.html' with name='be_folders' label='Folders' %}
-          </div>
-        </div>
-      </div>
-
-    </div>
+                <div>
+                  <ul class="nav nav-tabs nav-justified mb-3" id="ex1" role="tablist">
+                    <li class="nav-item" role="presentation">
+                      <a class="nav-link active" id="ex3-tab-1" data-mdb-toggle="tab" href="#ex3-tabs-1" role="tab"
+                        aria-controls="ex3-tabs-1" aria-selected="true">Front End</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                      <a class="nav-link" id="ex3-tab-2" data-mdb-toggle="tab" href="#ex3-tabs-2" role="tab"
+                        aria-controls="ex3-tabs-2" aria-selected="false">Back End</a>
+                    </li>
+                  </ul>
+                  <div class="tab-content" id="ex2-content">
+                    <div class="tab-pane fade show active" id="ex3-tabs-1" role="tabpanel" aria-labelledby="ex3-tab-1">
+                      <div class="border p-2 my-1 rounded">
+                        <small style="display: relative; top: 100px;">Front End</small>
+                        {% render_field update_app_form.fe_repo class='form-control' %}
+                        {% render_field update_app_form.fe_token class='form-control' %}
+                        {% include 'helpers/multiple-input.html' with name='fe_ignore_files' label='Ignore Files' elements=app.fe_ignore_files %}
+                        {% include 'helpers/multiple-input.html' with name='fe_folders' label='Folders' elements=app.fe_folders %}
+                      </div>
+                    </div>
+                    <div class="tab-pane fade" id="ex3-tabs-2" role="tabpanel" aria-labelledby="ex3-tab-2">
+                      <div class="border p-2 my-1 rounded">
+                        <small style="display: relative; top: 100px;">Back End</small>
+                        {% render_field update_app_form.be_repo class='form-control' %}
+                        {% render_field update_app_form.be_token class='form-control' %}
+                        {% include 'helpers/multiple-input.html' with name='be_ignore_files' label='Ignore Files' elements=app.be_ignore_files %}
+                        {% include 'helpers/multiple-input.html' with name='be_folders' label='Folders' elements=app.be_folders %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
             </div>
             <div class="card-footer">
                 <button type="submit" class="btn btn-primary btn-sm">Save</button>

@@ -3,6 +3,8 @@ import pathlib
 from django.db import models
 from urllib.parse import urlparse
 
+from core.utils import END_CHOICES, dot_notation
+
 
 
 def functionality_image_upload_location(instance, filename):
@@ -21,12 +23,6 @@ class TimeStampedModel(models.Model):
 class App(TimeStampedModel):
     name = models.CharField(max_length=64)
     description = models.CharField(max_length=512)
-    
-    # repository = models.URLField()
-    # access_token = models.CharField(max_length=128, null=True)
-    # ignore_files = models.JSONField(default=list)
-    # folders = models.JSONField(default=list)
-    # link = models.URLField()
 
     fe_repo = models.URLField(null=True)
     fe_token = models.CharField(max_length=128, null=True)
@@ -45,10 +41,22 @@ class App(TimeStampedModel):
 
     def __str__(self):
         return self.name
+
+    @property
+    def fe_repo_name(self):
+        return urlparse(self.fe_repo).path.strip('/')
     
     @property
-    def repo_name(self):
-        return urlparse(self.fe_repo).path.strip('/')
+    def be_repo_name(self):
+        return urlparse(self.be_repo).path.strip('/')
+    
+    @property
+    def fe_file_set(self):
+        return self.file_set.filter(end='FRONT')
+    
+    @property
+    def be_file_set(self):
+        return self.file_set.filter(end='BACK')
 
 
 class AppUser(TimeStampedModel):
@@ -59,9 +67,12 @@ class AppUser(TimeStampedModel):
     def __str__(self):
         return self.name
 
+
 class Functionality(TimeStampedModel):
     name = models.CharField(max_length=64)
     description = models.CharField(max_length=512)
+    front_end_file = models.CharField(max_length=128, null=True, blank=True)
+    back_end_file = models.CharField(max_length=128, null=True, blank=True)
     front_end_handler = models.CharField(max_length=128, null=True, blank=True)
     back_end_handler = models.CharField(max_length=128, null=True, blank=True)
     front_end_gist = models.CharField(max_length=128, null=True, blank=True)
@@ -72,9 +83,23 @@ class Functionality(TimeStampedModel):
     app = models.ForeignKey(App, on_delete=models.CASCADE)
     users = models.ManyToManyField(AppUser, related_name='functionalities')
 
+    def fe_handler(self):
+        file_path = self.front_end_file
+        handler = self.front_end_handler
+        return f'{file_path} => {handler}'
+    
+    def be_handler(self):
+        file_path = self.back_end_file
+        handler = self.back_end_handler
+        return f'{file_path} => {handler}'
+
 class File(TimeStampedModel):
     path = models.CharField(max_length=256)
+    end = models.CharField(max_length=8, choices=END_CHOICES, default='FRONT')
     app = models.ForeignKey(App, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.path 
 
     @property
     def dot_notation(self):

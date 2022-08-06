@@ -3,6 +3,13 @@
 
 {% load app_tags %}
 {% block body %}
+
+<style type="text/css">
+  .gist {height:250px !important; margin-bottom: 50px;}
+  .gist-file
+  .gist-data {max-height: 250px;}
+</style>
+
 <div class="container">
     <nav class="justify-content-between navbar navbar-expand-sm navbar-light bg-light p-2">
         <nav class="breadcrumb">
@@ -54,15 +61,15 @@
         <!-- <h6>Code</h6> -->
         <div>
             <div class="py-1">  
-                <small>Font </small><span class="badge badge-pill badge-primary">{{func.front_end_handler}}</span>
+                <small>Front </small><span class="badge badge-pill badge-primary">{{func.front_end_file}} <span class="fa fa-arrow-right"></span> {{func.front_end_handler}}</span>
             </div>
-            <script src="https://gist.github.com/samuelitwaru/8df50ad1b393566a5c5c991d04f9b0b5.js"></script>
+            <script style="max-height: 250px;" src="https://gist.github.com/samuelitwaru/{{func.front_end_gist}}.js"></script>
         </div>
         <div>
             <div class="py-1">
-                <small>Back </small><span class="badge badge-pill badge-primary">{{func.back_end_handler}}</span>
+                <small>Back </small><span class="badge badge-pill badge-primary">{{func.back_end_file}} <span class="fa fa-arrow-right"></span>  {{func.back_end_handler}}</span>
             </div>
-            <script src="https://gist.github.com/samuelitwaru/8df50ad1b393566a5c5c991d04f9b0b5.js?slice=0:1"></script>
+            <script src="https://gist.github.com/samuelitwaru/{{func.back_end_gist}}.js"></script>
         </div>
     {% endblock %}
-    </div>
+</div>

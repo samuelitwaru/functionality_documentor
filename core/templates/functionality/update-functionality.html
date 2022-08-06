@@ -25,13 +25,32 @@
                 {{ update_functionality_form.app }}
                 {% render_field update_functionality_form.name class='form-control' %}
                 {% render_field update_functionality_form.description class='form-control' %}
-                {% render_field update_functionality_form.front_end_handler class='form-control' list='handlers' id='front-end-handler' %}
-                {% render_field update_functionality_form.back_end_handler class='form-control' list='handlers' id='front-end-handler' %}
-                <datalist id='handlers'>
-                    {% for file in func.app.file_set.all %}
-                    <option value='{{file.dot_notation }}'/>
-                    {% endfor %}
-                </datalist>
+                <div class="row">
+                        <div class="col">
+                            {% render_field update_functionality_form.front_end_file class='form-control' list='front-files' %}
+                        </div>
+                        <div class="col">
+                            {% render_field update_functionality_form.front_end_handler class='form-control' %}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            {% render_field update_functionality_form.back_end_file class='form-control' list='back-files' %}
+                        </div>
+                        <div class="col">
+                            {% render_field update_functionality_form.back_end_handler class='form-control' %}
+                        </div>
+                    </div>
+                    <datalist id='front-files'>
+                        {% for file in func.app.fe_file_set.all %}
+                        <option value='{{file}}'/>
+                        {% endfor %}
+                    </datalist>
+                    <datalist id='back-files'>
+                        {% for file in func.app.be_file_set.all %}
+                        <option value='{{file}}'/>
+                        {% endfor %}
+                    </datalist>
 
                 <div class="">
                     <label>Associated users</label>

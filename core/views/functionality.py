@@ -19,7 +19,8 @@ def get_app_functionality(request, app_id, id):
 def create_app_functionality(request, app_id):
     if request.method == 'POST':
         app = App.objects.get(id=app_id)
-        create_functionality_form = CreateFunctionalityForm(app=app, data=request.POST)
+        create_functionality_form = CreateFunctionalityForm(
+            app=app, data=request.POST)
         if create_functionality_form.is_valid():
             data = create_functionality_form.cleaned_data
             users = data.pop('users')
@@ -49,7 +50,8 @@ def update_app_functionality(request, app_id, id):
         'helpers': func.helpers
     })
     if request.method == 'POST':
-        update_functionality_form = UpdateFunctionalityForm(func=func, data=request.POST)
+        update_functionality_form = UpdateFunctionalityForm(
+            func=func, data=request.POST)
         if update_functionality_form.is_valid():
             data = update_functionality_form.cleaned_data
             func.name = data['name']
@@ -58,21 +60,23 @@ def update_app_functionality(request, app_id, id):
             func.back_end_handler = data['back_end_handler']
             func.helpers = data['helpers']
             app = func.app
-            
+
             if data['front_end_file']:
                 if func.front_end_gist:
                     delete_gist(app.fe_token, func.front_end_gist)
-                gist = create_gist(app.fe_token, app.fe_repo_name,  data['front_end_file'])
+                gist = create_gist(
+                    app.fe_token, app.fe_repo_name,  data['front_end_file'])
                 func.front_end_gist = gist.id
                 func.front_end_file = data['front_end_file']
 
-            if ['back_end_file']:
+            if data['back_end_file']:
                 if func.back_end_gist:
                     delete_gist(app.fe_token, func.back_end_gist)
-                gist = create_gist(app.be_token, app.be_repo_name,  data['back_end_file'])
+                gist = create_gist(
+                    app.be_token, app.be_repo_name,  data['back_end_file'])
                 func.back_end_file = data['back_end_file']
                 func.back_end_gist = gist.id
-            
+
             func.save()
 
             func.users.set(data['users'])

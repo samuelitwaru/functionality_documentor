@@ -7,7 +7,7 @@ EXEMPT_URLS = [compile(settings.LOGIN_URL.lstrip('/'))]
 if hasattr(settings, 'LOGIN_EXEMPT_URLS'):
     EXEMPT_URLS += [compile(expr) for expr in settings.LOGIN_EXEMPT_URLS]
 
-    
+
 class LoginRequiredMiddleware(object):
     def __init__(self, get_response):
         self.get_response = get_response
@@ -20,6 +20,7 @@ class LoginRequiredMiddleware(object):
         response = self.get_response(request)
         if not request.user.is_authenticated:
             path = request.path_info.lstrip('/')
+            print(path, any(m.match(path) for m in EXEMPT_URLS))
             if not any(m.match(path) for m in EXEMPT_URLS):
                 # return response
                 return HttpResponseRedirect(settings.LOGIN_URL)
@@ -28,5 +29,3 @@ class LoginRequiredMiddleware(object):
         # the view is called.
 
         return response
-
-    

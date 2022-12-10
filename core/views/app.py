@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth import get_user
 from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 
@@ -13,14 +14,14 @@ from ..models import App, AppUser
 
 
 def get_apps(request):
-    query = App.objects
+    query = App.objects.filter(user=get_user(request))
     filter_apps_form = AppForm(data=request.GET)
     if filter_apps_form.is_valid():
         data = filter_apps_form.cleaned_data
         # get data
-        
+
         # perform query
-    
+
     page = int(request.GET.get('page', 1))
     paginator = Paginator(query.all(), settings.PAGINATION_COUNT)
     apps = paginator.get_page(page)
@@ -53,7 +54,8 @@ def create_app(request):
             data = create_app_form.cleaned_data
             users = data.pop('users')
             app = App.objects.create(**data)
-            AppUser.objects.bulk_create([AppUser(name=name, app=app) for name in users])
+            AppUser.objects.bulk_create(
+                [AppUser(name=name, app=app) for name in users])
             messages.success(request, 'app created')
             return redirect('core:get_apps')
     context = {
@@ -66,17 +68,17 @@ def update_app(request, id):
     app = App.objects.get(id=id)
     app.users = [user.name for user in app.appuser_set.all()]
     update_app_form = UpdateAppForm(app=app, data={
-        'name':app.name,
-        'description':app.description,
-        'users':app.users,
-        'fe_repo':app.fe_repo,
-        'fe_token':app.fe_token,
-        'fe_ignore_files':app.fe_ignore_files,
-        'fe_folders':app.fe_folders,
-        'be_repo':app.be_repo,
-        'be_token':app.be_token,
-        'be_ignore_files':app.be_ignore_files,
-        'be_folders':app.be_folders,
+        'name': app.name,
+        'description': app.description,
+        'users': app.users,
+        'fe_repo': app.fe_repo,
+        'fe_token': app.fe_token,
+        'fe_ignore_files': app.fe_ignore_files,
+        'fe_folders': app.fe_folders,
+        'be_repo': app.be_repo,
+        'be_token': app.be_token,
+        'be_ignore_files': app.be_ignore_files,
+        'be_folders': app.be_folders,
     })
     if request.method == 'POST':
         update_app_form = UpdateAppForm(app=app, data=request.POST)
@@ -93,8 +95,9 @@ def update_app(request, id):
             app.be_token = data['be_token']
             app.be_ignore_files = data['be_ignore_files']
             app.be_folders = data['be_folders']
-            
-            [user.delete() for user in app.appuser_set.all() if not user in data['users']]
+
+            [user.delete() for user in app.appuser_set.all()
+             if not user in data['users']]
             app.appuser_set.add(*data['users'])
             app.save()
             run_task('task 1')
@@ -105,6 +108,7 @@ def update_app(request, id):
         'app': app,
     }
     return render(request, 'app/update-app.html', context)
+
 
 def delete_app(request, id):
     app = App.objects.get(id=id)

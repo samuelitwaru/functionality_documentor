@@ -49,18 +49,19 @@ def signup(request):
             email = data['email']
             username = data['username']
             password = data['password']
-            user = User(first_name=first_name, last_name=last_name, username=username, email=email)
+            user = User(first_name=first_name, last_name=last_name,
+                        username=username, email=email)
             user.set_password(password)
             user.save()
             messages.success(request, "User created", "success")
-            return redirect('core:index')
+            return redirect('account:index')
     else:
         signup_form = SignupForm()
-    
+
     context = {'signup_form': signup_form}
     return render(request, 'index/signup.html', context)
 
 
 def logout_view(request):
     logout(request)
-    return redirect('core:index')
+    return redirect('account:index')

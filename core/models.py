@@ -1,10 +1,12 @@
-from email.policy import default
 import pathlib
-from django.db import models
+from re import A
+from tokenize import blank_re
 from urllib.parse import urlparse
 
-from core.utils import END_CHOICES, dot_notation
+from django.db import models
+from django_quill.fields import QuillField
 
+from core.utils import END_CHOICES, dot_notation
 
 
 def functionality_image_upload_location(instance, filename):
@@ -77,11 +79,18 @@ class Functionality(TimeStampedModel):
     back_end_handler = models.CharField(max_length=128, null=True, blank=True)
     front_end_gist = models.CharField(max_length=128, null=True, blank=True)
     back_end_gist = models.CharField(max_length=128, null=True, blank=True)
-    helpers = models.JSONField(default=list)
-    procudure = models.JSONField(default=list)
-    image = models.ImageField(upload_to=functionality_image_upload_location, null=True)
+    helpers = models.JSONField(default=list, null=True, blank=True)
+    procudure = models.JSONField(default=list, null=True, blank=True)
+    image = models.ImageField(upload_to=functionality_image_upload_location, null=True, blank=True)
     app = models.ForeignKey(App, on_delete=models.CASCADE)
     users = models.ManyToManyField(AppUser, related_name='functionalities')
+    user_manual = QuillField(null=True, blank=True)
+    user_video = models.URLField(max_length=1024, null=True, blank=True)
+    dev_manual = models.CharField(max_length=1024, null=True, blank=True)
+    dev_video = models.URLField(null=True, blank=True)
+
+    def __str__(self):
+        return f'{self.app} {self.name}'
 
     def fe_handler(self):
         file_path = self.front_end_file

@@ -1,11 +1,12 @@
 from django.contrib import messages
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect, render
+from github import Github
 
 from core.forms.file import RefreshAppFilesForm
 from core.utils import get_url_path, match_file
+
 from ..forms import CreateFunctionalityForm, UpdateFunctionalityForm
 from ..models import App, File
-from github import Github
 
 
 def refresh_app_files(request, app_id):

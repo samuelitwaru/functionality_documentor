@@ -1,15 +1,15 @@
-from django.shortcuts import render, redirect
+from django.conf import settings
 from django.contrib import messages
 from django.core.paginator import Paginator
-from django.conf import settings
+from django.shortcuts import redirect, render
 
 from core.forms.app import CreateAppForm, UpdateAppForm
 from core.forms.file import RefreshAppFilesForm
 from core.forms.functionality import CreateFunctionalityForm
 from core.tasks import run_task
-from ..models import App, AppUser
-from ..forms import AppForm
 
+from ..forms import AppForm
+from ..models import App, AppUser
 
 
 def get_apps(request):

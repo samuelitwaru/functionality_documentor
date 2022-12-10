@@ -1,7 +1,8 @@
 from django.contrib import messages
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect, render
 
 from core.utils import create_gist, delete_gist
+
 from ..forms import CreateFunctionalityForm, UpdateFunctionalityForm
 from ..models import App, Functionality
 

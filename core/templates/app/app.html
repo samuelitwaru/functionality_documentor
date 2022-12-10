@@ -10,7 +10,8 @@
             <span class="breadcrumb-item active">{{app.name}}</span>
         </nav>
         <div>
-            {% include 'app/delete-app.html' %}
+            {% url 'core:delete_app' id=app.id as delete_url %}
+            {% include 'helpers/delete-entity.html' with entity_name='App' delete_url=delete_url  %}
         </div>
     </nav>
 

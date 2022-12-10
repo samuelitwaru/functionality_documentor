@@ -1,0 +1,8 @@
+<form method="POST" action="{% url 'account:signup' %}">
+	{% csrf_token %}
+	{{ signup_form }}
+	<input type="submit" />
+</form>
+<hr>
+
+Already have an account? <a href="{% url 'account:signin' %}">Sign in</a>

@@ -41,6 +41,7 @@ class App(TimeStampedModel):
     be_folders = models.JSONField(default=list)
     be_link = models.URLField(null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    collaborators = models.ManyToManyField(User, related_name='apps')
 
     class Meta:
         ordering = ['-id']

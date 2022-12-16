@@ -14,6 +14,7 @@
 </head>
 
 <body>
+	{% include 'index/nav-bar.html' %}
 	{% include 'alert.html' %}
 	{% block body %}
 	{% endblock %}
@@ -50,7 +51,7 @@
 			const container = $(data.container)
 			const hiddenInput = $(data.hiddenInput)
 			var elements = JSON.parse(hiddenInput.val())
-			elements = elements.filter(ele=>ele!=element)
+			elements = elements.filter(ele => ele != element)
 			renderElements(elements, container)
 			hiddenInput.val(JSON.stringify(elements))
 		}
@@ -81,7 +82,7 @@
 			hiddenInput.val(JSON.stringify(elements))
 			renderElements(elements, container)
 		});
-		$().ready(()=>{
+		$().ready(() => {
 			const components = document.getElementsByClassName('string-list-input')
 			for (let index = 0; index < components.length; index++) {
 				const component = components[index];

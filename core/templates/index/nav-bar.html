@@ -1,0 +1,11 @@
+<nav class="navbar navbar-light bg-white mb-1">
+    <div class="container-fluid">
+        <span class="navbar-brand mb-0 h1">App Docs</span>
+        {% if user.is_authenticated %}
+        <div>
+            <a href="{% url 'account:logout' %}" class="btn btn-link text-danger">Logout</a>
+            <label class="border p-1 bg-white">{{user}}</label>
+        </div>
+        {% endif %}
+    </div>
+</nav>

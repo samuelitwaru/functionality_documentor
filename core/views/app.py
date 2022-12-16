@@ -32,6 +32,26 @@ def get_apps(request):
     return render(request, 'app/apps.html', context)
 
 
+def get_collaboration_apps(request):
+    user = user=get_user(request)
+    query = user.apps
+    filter_apps_form = AppForm(data=request.GET)
+    if filter_apps_form.is_valid():
+        data = filter_apps_form.cleaned_data
+        # get data
+
+        # perform query
+
+    page = int(request.GET.get('page', 1))
+    paginator = Paginator(query.all(), settings.PAGINATION_COUNT)
+    apps = paginator.get_page(page)
+    context = {
+        'apps': apps,
+        'filter_apps_form': filter_apps_form,
+    }
+    return render(request, 'app/collaboration-apps.html', context)
+
+
 def get_app(request, id):
     app = App.objects.get(id=id)
     create_functionality_form = CreateFunctionalityForm(app=app)

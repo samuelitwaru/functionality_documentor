@@ -1,8 +1,18 @@
-<form method="POST" action="{% url 'account:signin' %}">
-	{% csrf_token %}
-	{{ login_form }}
-	<input type="submit" />
-</form>
-<hr>
+{% extends 'base.html' %}
+{% load static %}
 
-Do not have an account? <a href="{% url 'account:signup' %}">Sign up</a>
+{% load app_tags %}
+{% block body %}
+<div class="container">
+	<h3>Login</h3>
+	<form method="POST" action="{% url 'account:signin' %}">
+		{% csrf_token %}
+		{% render_field login_form.username class='form-control' %}
+		{% render_field login_form.password class='form-control' %}
+		<input type="submit" />
+	</form>
+	<hr>
+
+	Do not have an account? <a href="{% url 'account:signup' %}">Sign up</a>
+</div>
+{% endblock %}

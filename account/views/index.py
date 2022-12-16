@@ -42,7 +42,7 @@ def signin(request):
 def signup(request):
     if request.method == "POST":
         signup_form = SignupForm(request.POST)
-        if signup_form.is_valid:
+        if signup_form.is_valid():
             data = request.POST
             first_name = data['first_name']
             last_name = data['last_name']
@@ -55,8 +55,12 @@ def signup(request):
             user.save()
             messages.success(request, "User created", "success")
             return redirect('account:index')
+        else:
+            messages.success(request, f"{signup_form.errors}", "success")
+
     else:
         signup_form = SignupForm()
+
 
     context = {'signup_form': signup_form}
     return render(request, 'index/signup.html', context)

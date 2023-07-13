@@ -1,0 +1,52 @@
+{% load app_tags %}
+
+<button id="filterFunctionalityModalTrigger" class="btn btn-sm btn-primary" data-mdb-toggle="modal" data-mdb-target="#filterFunctionalityModal">
+    Filter
+</button>
+<!-- Modal -->
+<div class="modal fade" id="filterFunctionalityModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <form class="m-0" method="GET" action="{% url 'core:get_app' id=app.id %}" align="left">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Filter App Functionality</h5>
+                    <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    {% comment %} {% csrf_token %} {% endcomment %}
+
+                    {{ filter_functionality_form.app }}
+                    {% render_field filter_functionality_form.name class='form-control' %}
+                    <div class="">
+                        <label>Associated users</label>
+                        <div class="p-2">
+                            {{ create_functionality_form.users }}
+                            {{ create_functionality_form.users.errors }}
+                        </div>
+                    </div>
+                    <div class="">
+                        <label>Categories</label>
+                        <div class="p-2">
+                            {{ create_functionality_form.categories }}
+                            {{create_functionality_form.categories.errors}}
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm" data-mdb-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Filter</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% if filter_functionality_form.errors %}
+<script>
+    $().ready(()=>{
+        const btn = ($('#filterFunctionalityModalTrigger'))
+        btn.click()
+    })
+</script>
+{% endif %}

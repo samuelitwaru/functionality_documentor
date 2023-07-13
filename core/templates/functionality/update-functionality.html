@@ -59,6 +59,13 @@
                         {{ update_functionality_form.users.errors}}
                     </div>
                 </div>
+                <div class="">
+                    <label>Categories</label>
+                    <div class="p-2">
+                        {{ update_functionality_form.categories }}
+                        {{ update_functionality_form.categories.errors}}
+                    </div>
+                </div>
 
                 {% include 'helpers/multiple-input.html' with name='helpers' label='Helpers' elements=func.helpers %}
 

@@ -121,3 +121,11 @@ class File(TimeStampedModel):
     def dot_notation(self):
         path = pathlib.Path(self.path)
         return '.'.join(path.with_suffix('').parts)
+    
+class FunctionalityCategory(TimeStampedModel):
+     name = models.CharField(max_length=32)
+     description = models.CharField(max_length=128)
+     Functionalities = models.ManyToManyField(Functionality, related_name='categories')
+     
+     def __str__(self):
+         return self.name

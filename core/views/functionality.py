@@ -25,8 +25,10 @@ def create_app_functionality(request, app_id):
         if create_functionality_form.is_valid():
             data = create_functionality_form.cleaned_data
             users = data.pop('users')
+            categories = data.pop('categories')
             func = Functionality.objects.create(**data)
             func.users.set(users)
+            func.categories.set(categories)
             messages.success(request, 'functionality created')
             return redirect(request.META.get('HTTP_REFERER'))
         else:
@@ -48,8 +50,10 @@ def update_app_functionality(request, app_id, id):
         'back_end_handler': func.back_end_handler,
         'description': func.description,
         'users': [user.id for user in func.users.all()],
+        'categories': [category.id for category in func.categories.all()],
         'helpers': func.helpers
     })
+
     if request.method == 'POST':
         update_functionality_form = UpdateFunctionalityForm(
             func=func, data=request.POST)
@@ -81,12 +85,14 @@ def update_app_functionality(request, app_id, id):
             func.save()
 
             func.users.set(data['users'])
+            func.categories.set(data['categories'])
             messages.success(request, 'functionality updated.')
             return redirect('core:get_app_functionality', app_id=app_id, id=id)
     context = {
         'update_functionality_form': update_functionality_form,
         'func': func,
     }
+    print(update_functionality_form.data)
     return render(request, 'functionality/update-functionality.html', context)
 
 

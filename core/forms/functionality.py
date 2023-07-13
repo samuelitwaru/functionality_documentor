@@ -1,6 +1,6 @@
 from django import forms
-from ..models import App, AppUser, Functionality
-from .utils import StringListField
+from ..models import App, AppUser, Functionality, FunctionalityCategory
+from .utils import IntegerMultipleChoiceField, StringListField
 
 
 class CreateFunctionalityForm(forms.Form):
@@ -12,12 +12,14 @@ class CreateFunctionalityForm(forms.Form):
     back_end_handler = forms.CharField(required=False, empty_value=None)
     description = forms.CharField(widget=forms.Textarea)
     users = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, required=False)
+    categories = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, required=False)
 
     def __init__(self, app=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
         if app:
             self.fields["app"].initial = app.id
             self.fields['users'].choices = [(user.id, user) for user in app.appuser_set.all()]
+            self.fields['categories'].choices = [(category.id, category) for category in FunctionalityCategory.objects.all()]
     
     def clean(self):
         cleaned_data = super().clean()
@@ -36,14 +38,30 @@ class UpdateFunctionalityForm(forms.Form):
     description = forms.CharField(widget=forms.Textarea)
     helpers = StringListField(widget=forms.Textarea, required=False)
     users = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, required=False)
+    categories = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, required=False)
 
     def __init__(self, func=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
         if func:
             self.fields['users'].choices = [(user.id, user) for user in func.app.appuser_set.all()]
+            self.fields['categories'].choices = [(category.id, category) for category in FunctionalityCategory.objects.all()]
 
     def clean(self):
         cleaned_data = super().clean()
         self.cleaned_data['users'] = AppUser.objects.filter(id__in=cleaned_data['users'])
         
 
+class FilterFunctionalityForm(forms.Form):
+    name = forms.CharField(required=False)
+    users = IntegerMultipleChoiceField(widget=forms.CheckboxSelectMultiple, required=False)
+    categories = IntegerMultipleChoiceField(widget=forms.CheckboxSelectMultiple, required=False)
+    
+    def __init__(self, app=None, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if app:
+            self.fields['users'].choices = [(user.id, user) for user in app.appuser_set.all()]
+            self.fields['categories'].choices = [(category.id, category) for category in FunctionalityCategory.objects.all()]
+    
+    # def clean(self):
+        # cleaned_data = super().clean()
+        # self.cleaned_data['users'] = AppUser.objects.filter(id__in=cleaned_data['users'])

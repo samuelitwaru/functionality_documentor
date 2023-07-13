@@ -53,6 +53,7 @@
     <div class="py-3">
         <div class="d-flex justify-content-between">
             <h5 class="my-auto">Functionalities</h5>
+            {% include 'functionality/filter-functionality.html' %}
             {% include 'functionality/create-functionality.html' %}
         </div>
         <hr>
@@ -64,14 +65,18 @@
                 </div>
                 <small>{{func.description}}</small>
                 <div style="overflow-x: auto;">
+                    {% if  func.front_end_handler %}
                     <small>Front</small>
-                    <span class="badge badge-pill badge-primary" >
-                        {{func.front_end_handler}}
-                    </span>
+                        <span class="badge badge-pill badge-primary" >
+                            {{func.front_end_handler}}
+                        </span>
+                    {% endif %}
+                    {% if  func.front_end_handler %}
                     <small>Back</small>
                     <span class="badge badge-pill badge-primary" >
                         {{func.back_end_handler}}
                     </span>
+                    {% endif %}
                 </div>
                 <div style="overflow-x: auto;">
                     {% for user in func.users.all %}

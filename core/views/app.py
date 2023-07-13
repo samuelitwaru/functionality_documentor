@@ -6,7 +6,7 @@ from django.shortcuts import redirect, render
 
 from core.forms.app import CreateAppForm, UpdateAppForm
 from core.forms.file import RefreshAppFilesForm
-from core.forms.functionality import CreateFunctionalityForm
+from core.forms.functionality import CreateFunctionalityForm, FilterFunctionalityForm
 from core.tasks import run_task
 
 from ..forms import AppForm
@@ -57,12 +57,20 @@ def get_app(request, id):
     create_functionality_form = CreateFunctionalityForm(app=app)
     refresh_front_app_files_form = RefreshAppFilesForm(end='FRONT', app=app)
     refresh_back_app_files_form = RefreshAppFilesForm(end='BACK', app=app)
+    filter_functionality_form = FilterFunctionalityForm(app=app, data=request.GET)
+    # if filter_functionality_form.is_valid():
+    #     filter_functionality_form = FilterFunctionalityForm(data=filter_functionality_form.cleaned_data)
+    # filter_functionality_form.data['users'] = AppUser.objects.filter(id__in=[1,2])
+
+    # print('clean', filter_functionality_form.cleaned_data)
     context = {
         'app': app,
         'create_functionality_form': create_functionality_form,
         'refresh_front_app_files_form': refresh_front_app_files_form,
-        'refresh_back_app_files_form': refresh_back_app_files_form
+        'refresh_back_app_files_form': refresh_back_app_files_form,
+        'filter_functionality_form': filter_functionality_form,
     }
+    print('data', filter_functionality_form.data)
     return render(request, 'app/app.html', context)
 
 
@@ -72,7 +80,9 @@ def create_app(request):
         create_app_form = CreateAppForm(request.POST)
         if create_app_form.is_valid():
             data = create_app_form.cleaned_data
+            data['user_id'] = get_user(request).id
             users = data.pop('users')
+            print(data)
             app = App.objects.create(**data)
             AppUser.objects.bulk_create(
                 [AppUser(name=name, app=app) for name in users])

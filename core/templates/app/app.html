@@ -63,7 +63,7 @@
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">{{func.name}}</h5>
                 </div>
-                <small>{{func.description}}</small>
+                <small>{{func.description.html|safe}}</small>
                 <div style="overflow-x: auto;">
                     {% if  func.front_end_handler %}
                     <small>Front</small>

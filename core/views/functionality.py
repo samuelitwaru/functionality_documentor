@@ -76,7 +76,7 @@ def update_app_functionality(request, app_id, id):
 
             if data['back_end_file']:
                 if func.back_end_gist:
-                    delete_gist(app.fe_token, func.back_end_gist)
+                    delete_gist(app.be_token, func.back_end_gist)
                 gist = create_gist(
                     app.be_token, app.be_repo_name,  data['back_end_file'])
                 func.back_end_file = data['back_end_file']

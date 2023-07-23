@@ -77,7 +77,8 @@ class AppUser(TimeStampedModel):
 
 class Functionality(TimeStampedModel):
     name = models.CharField(max_length=64)
-    description = models.CharField(max_length=512)
+    # description = models.CharField(max_length=512)
+    description = QuillField()
     front_end_file = models.CharField(max_length=128, null=True, blank=True)
     back_end_file = models.CharField(max_length=128, null=True, blank=True)
     front_end_handler = models.CharField(max_length=128, null=True, blank=True)

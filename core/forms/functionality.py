@@ -1,7 +1,7 @@
 from django import forms
 from ..models import App, AppUser, Functionality, FunctionalityCategory
 from .utils import IntegerMultipleChoiceField, StringListField
-
+from django_quill.forms import QuillFormField
 
 class CreateFunctionalityForm(forms.Form):
     app = forms.IntegerField(widget=forms.HiddenInput)
@@ -10,7 +10,7 @@ class CreateFunctionalityForm(forms.Form):
     back_end_file = forms.CharField(required=False, empty_value=None)
     front_end_handler = forms.CharField(required=False, empty_value=None)
     back_end_handler = forms.CharField(required=False, empty_value=None)
-    description = forms.CharField(widget=forms.Textarea)
+    description = QuillFormField()
     users = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, required=False)
     categories = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, required=False)
 
@@ -35,7 +35,8 @@ class UpdateFunctionalityForm(forms.Form):
     back_end_file = forms.CharField(required=False, empty_value=None)
     front_end_handler = forms.CharField(required=False, empty_value=None)
     back_end_handler = forms.CharField(required=False, empty_value=None)
-    description = forms.CharField(widget=forms.Textarea)
+    # description = forms.CharField(widget=forms.Textarea)
+    description = QuillFormField()
     helpers = StringListField(widget=forms.Textarea, required=False)
     users = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, required=False)
     categories = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, required=False)

@@ -89,3 +89,8 @@ a{
   .modal.right.show .modal-dialog {
     right: 0;
   }
+
+
+.ql-container{
+  height: 400px !important;
+}

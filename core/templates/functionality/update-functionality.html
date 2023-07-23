@@ -24,7 +24,8 @@
 
                 {{ update_functionality_form.app }}
                 {% render_field update_functionality_form.name class='form-control' %}
-                {% render_field update_functionality_form.description class='form-control' %}
+                {% comment %} {% render_field update_functionality_form.description class='form-control' %} {% endcomment %}
+                {{ update_functionality_form.description }}
                 <div class="row">
                         <div class="col">
                             {% render_field update_functionality_form.front_end_file class='form-control' list='front-files' %}
